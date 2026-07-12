@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://b5fege6ms2tnw"]
+
+[ext_resource type="Script" uid="uid://dfh3jl2vl71wk" path="res://scripts/sign.gd" id="1_8yyji"]
+[ext_resource type="Texture2D" uid="uid://1s3ortdderbr" path="res://assets/sprites/world_tileset.png" id="1_kd50q"]
+[ext_resource type="FontFile" uid="uid://cfi2kbget47dc" path="res://assets/fonts/PixelOperator8.ttf" id="3_8yyji"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i34iy"]
+size = Vector2(10, 12)
+
+[node name="Sign" type="Area2D" unique_id=1067933145]
+script = ExtResource("1_8yyji")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1025734414]
+texture = ExtResource("1_kd50q")
+region_enabled = true
+region_rect = Rect2(128, 49, 16, 17)
+region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1647563074]
+shape = SubResource("RectangleShape2D_i34iy")
+
+[node name="KeyRequiredLabel" type="Label" parent="." unique_id=1199155419]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -31.0
+offset_right = 29.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_8yyji")
+theme_override_font_sizes/font_size = 8
+text = "KEY
+REQUIRED!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

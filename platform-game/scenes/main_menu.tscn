@@ -1,0 +1,213 @@
+[gd_scene format=3 uid="uid://bh4xav2jj5hjl"]
+
+[ext_resource type="Script" uid="uid://c4v275725qacg" path="res://scripts/main_menu.gd" id="1_ekxnf"]
+[ext_resource type="FontFile" uid="uid://cfi2kbget47dc" path="res://assets/fonts/PixelOperator8.ttf" id="1_l6cm7"]
+[ext_resource type="Texture2D" uid="uid://baqf2yk12kt7e" path="res://assets/sprites/9b3dbba790a33941b330a86480271cb2.jpg" id="2_bqqt6"]
+[ext_resource type="FontFile" uid="uid://febvgvb7te28" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="5_8ln24"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tbmy8"]
+bg_color = Color(0, 0, 0.15294118, 0.58431375)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[node name="MainMenu" type="Control" unique_id=2135622500]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ekxnf")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=287889081]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bqqt6")
+expand_mode = 2
+
+[node name="SlotPicker" type="Panel" parent="." unique_id=1869703320]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -132.5
+offset_top = -114.5
+offset_right = 130.0
+offset_bottom = 114.5
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="Slot1" type="Button" parent="SlotPicker" unique_id=1754568945]
+layout_mode = 1
+anchors_preset = -1
+offset_top = 10.0
+offset_right = 260.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 16
+text = "Slot 1"
+
+[node name="Slot2" type="Button" parent="SlotPicker" unique_id=876140938]
+layout_mode = 1
+anchors_preset = -1
+offset_top = 60.0
+offset_right = 260.0
+offset_bottom = 100.0
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 16
+text = "Slot 2"
+
+[node name="Slot3" type="Button" parent="SlotPicker" unique_id=622516715]
+layout_mode = 1
+anchors_preset = -1
+offset_top = 110.0
+offset_right = 260.0
+offset_bottom = 150.0
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 16
+text = "Slot 3"
+
+[node name="CloseButton" type="Button" parent="SlotPicker" unique_id=2100794664]
+layout_mode = 1
+anchors_preset = -1
+offset_top = 170.0
+offset_right = 260.0
+offset_bottom = 210.0
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 16
+text = "Close"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=186831088]
+custom_minimum_size = Vector2(320, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -100.0
+offset_right = 110.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 33
+
+[node name="NewGameButton" type="Button" parent="VBoxContainer" unique_id=2118842454]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 48
+text = "New Game"
+
+[node name="LoadGameButton" type="Button" parent="VBoxContainer" unique_id=848252117]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 48
+text = "Load Game"
+
+[node name="ExitGameButton" type="Button" parent="VBoxContainer" unique_id=861572670]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 48
+text = "Exit :("
+
+[node name="SoundSliders" type="Node" parent="." unique_id=2082444584]
+
+[node name="Panel" type="Panel" parent="SoundSliders" unique_id=1212452787]
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 254.0
+offset_bottom = 167.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tbmy8")
+
+[node name="MainMusicSlider" type="HSlider" parent="SoundSliders/Panel" unique_id=186756193]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 61.0
+offset_right = 201.0
+offset_bottom = 77.0
+max_value = 1.5
+step = 0.001
+value = 0.3
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="MainMusicLabel" type="Label" parent="SoundSliders/Panel" unique_id=1916346969]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 43.0
+offset_right = 86.0
+offset_bottom = 66.0
+theme_override_colors/font_color = Color(0, 0.81960785, 0.8627451, 1)
+theme_override_fonts/font = ExtResource("5_8ln24")
+text = "Music"
+
+[node name="SFXSlider" type="HSlider" parent="SoundSliders/Panel" unique_id=1629789396]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 115.0
+offset_right = 201.0
+offset_bottom = 131.0
+max_value = 1.5
+step = 0.001
+value = 0.5
+
+[node name="SFXLabel" type="Label" parent="SoundSliders/Panel" unique_id=1200520896]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 98.0
+offset_right = 58.0
+offset_bottom = 121.0
+theme_override_colors/font_color = Color(0, 0.81960785, 0.8627451, 1)
+theme_override_fonts/font = ExtResource("5_8ln24")
+text = "SFX"
+
+[node name="Label" type="Label" parent="SoundSliders/Panel" unique_id=1273223780]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -104.5
+offset_top = 7.0
+offset_right = 105.5
+offset_bottom = 30.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0.81960785, 0.8627451, 1)
+theme_override_fonts/font = ExtResource("5_8ln24")
+text = "Sound Controle"
+
+[connection signal="pressed" from="SlotPicker/Slot1" to="." method="_on_slot_1_pressed"]
+[connection signal="pressed" from="SlotPicker/Slot2" to="." method="_on_slot_2_pressed"]
+[connection signal="pressed" from="SlotPicker/Slot3" to="." method="_on_slot_3_pressed"]
+[connection signal="pressed" from="SlotPicker/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/LoadGameButton" to="." method="_on_load_game_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ExitGameButton" to="." method="_on_exit_game_button_pressed"]
+[connection signal="value_changed" from="SoundSliders/Panel/MainMusicSlider" to="." method="_on_main_music_slider_value_changed"]
+[connection signal="value_changed" from="SoundSliders/Panel/SFXSlider" to="." method="_on_sfx_slider_value_changed"]

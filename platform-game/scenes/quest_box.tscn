@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://c0j63k2llw41x"]
+
+[ext_resource type="Texture2D" uid="uid://1s3ortdderbr" path="res://assets/sprites/world_tileset.png" id="1_p8bov"]
+
+[node name="QuestBox" type="AnimatableBody2D" unique_id=925253422]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1166186731]
+texture = ExtResource("1_p8bov")
+region_enabled = true
+region_rect = Rect2(16, 32, 16, 17)
+region_filter_clip_enabled = true
