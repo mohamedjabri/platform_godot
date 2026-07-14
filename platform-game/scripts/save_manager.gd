@@ -83,6 +83,7 @@ func slot_info(slot: int) -> Dictionary:
 	return {
 		"empty": false,
 		"score": data.get("score", 0),
+		"has_key": data.get("has_key", false),
 		"health": data.get("health", 0),
 		"timestamp": data.get("timestamp", ""),
 	}
@@ -96,6 +97,7 @@ func new_game() -> void:
 		"position": null,
 		"health": null,
 		"score": 0,
+		"has_key": false,
 		"collected": [],
 	}
 	checkpoint_data = current_data.duplicate(true)
@@ -173,7 +175,15 @@ func mark_collected(id: String) -> void:
 		current_data["collected"] = []
 	if id not in current_data["collected"]:
 		current_data["collected"].append(id)
+		
+		
+func mark_key_collected(id: String) -> void:
+	current_data["has_key"] = true
+	
 
+func is_key_collected(id: String) -> bool:
+	return current_data["has_key"] == true
+	
 
 func is_collected(id: String) -> bool:
 	return current_data.has("collected") and id in current_data["collected"]

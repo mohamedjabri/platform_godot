@@ -5,7 +5,6 @@ func _ready() -> void:
 	key_required_label.visible = false
 
 func _on_body_entered(body: Node2D) -> void:
-	print("entered")
 	key_required_label.visible = true
 
 

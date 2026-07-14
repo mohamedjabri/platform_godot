@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://d1iido6est48a"]
+
+[ext_resource type="Script" uid="uid://dyyt6ekgq2b40" path="res://scripts/level_key.gd" id="1_p2m6h"]
+[ext_resource type="Texture2D" uid="uid://b3osvdsebldlt" path="res://assets/sprites/key.png" id="1_uxvpv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i34iy"]
+radius = 11.045361
+
+[node name="LevelKey" type="Area2D" unique_id=809113955]
+collision_mask = 2
+script = ExtResource("1_p2m6h")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1851122654]
+rotation = 1.5707964
+texture = ExtResource("1_uxvpv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1424844210]
+shape = SubResource("CircleShape2D_i34iy")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1733118007]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
