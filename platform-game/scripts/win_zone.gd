@@ -7,13 +7,14 @@ extends Area2D
 var level_finished: bool = false
 
 func _on_body_entered(body: Node2D) -> void:
-	level_finished = true
-	get_tree().paused = true
-	panel_fade.play("fade_panel")
-	await panel_fade.animation_finished
-	info_label.text = "Score: " + str(game_manager.score) + " ."
-	info_label.text += "\n\nCurrent Health: " + str(body.current_health) + " ."
-	game_finished.play()
+	if body.has_key:
+		level_finished = true
+		get_tree().paused = true
+		panel_fade.play("fade_panel")
+		await panel_fade.animation_finished
+		info_label.text = "Score: " + str(game_manager.score) + " ."
+		info_label.text += "\n\nCurrent Health: " + str(body.current_health) + " ."
+		game_finished.play()
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if (event.is_action_pressed("ui_cancel")) and (level_finished == true):

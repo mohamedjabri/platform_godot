@@ -1,11 +1,147 @@
 [gd_scene format=3 uid="uid://c0j63k2llw41x"]
 
+[ext_resource type="Script" uid="uid://0l5ar64606u1" path="res://scripts/quest_box.gd" id="1_0su5k"]
 [ext_resource type="Texture2D" uid="uid://1s3ortdderbr" path="res://assets/sprites/world_tileset.png" id="1_p8bov"]
+[ext_resource type="PackedScene" uid="uid://d1iido6est48a" path="res://scenes/level_key.tscn" id="2_socya"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i34iy"]
+size = Vector2(16, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yl6mp"]
+size = Vector2(10, 1)
+
+[sub_resource type="Animation" id="Animation_socya"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LevelKey:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0su5k"]
+resource_name = "box_hit"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -3), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ojhj3"]
+resource_name = "key_up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LevelKey:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -13)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lj4h6"]
+resource_name = "quest_on"
+length = 0.6
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(2.4061394, 2.4061394, 0.8600654, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4gr5e"]
+_data = {
+&"RESET": SubResource("Animation_socya"),
+&"box_hit": SubResource("Animation_0su5k"),
+&"key_up": SubResource("Animation_ojhj3"),
+&"quest_on": SubResource("Animation_lj4h6")
+}
 
 [node name="QuestBox" type="AnimatableBody2D" unique_id=925253422]
+script = ExtResource("1_0su5k")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1166186731]
 texture = ExtResource("1_p8bov")
 region_enabled = true
 region_rect = Rect2(16, 32, 16, 17)
 region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=794906139]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_i34iy")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1054918064]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=664100006]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_yl6mp")
+
+[node name="LevelKey" parent="." unique_id=809113955 instance=ExtResource("2_socya")]
+z_index = -1
+scale = Vector2(0.6, 0.6)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1426050225]
+libraries/ = SubResource("AnimationLibrary_4gr5e")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

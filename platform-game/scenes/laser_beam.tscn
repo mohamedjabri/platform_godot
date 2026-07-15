@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://b0ibv0muv73j6"]
+
+[ext_resource type="Texture2D" uid="uid://boru7vwutfhtl" path="res://assets/sprites/laser.png" id="1_5ua82"]
+[ext_resource type="Script" uid="uid://dky5g1kmxqdmr" path="res://scripts/laser_beam.gd" id="1_ierl2"]
+[ext_resource type="AudioStream" uid="uid://coce35yvvjm86" path="res://assets/sounds/laser.wav" id="3_icd7v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ierl2"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icd7v"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m74rl"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o3ks0"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_283s6"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i34iy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ierl2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_icd7v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m74rl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o3ks0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_283s6")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i34iy"]
+radius = 6.0
+height = 40.0
+
+[node name="LaserBeam" type="Area2D" unique_id=1685539266]
+collision_layer = 8
+script = ExtResource("1_ierl2")
+laser_speed = 200
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=746369095]
+sprite_frames = SubResource("SpriteFrames_i34iy")
+autoplay = "default"
+frame = 3
+frame_progress = 0.030924777
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1595350276]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_i34iy")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=1910406551]
+rect = Rect2(-19, -16, 38, 32)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=484567388]
+stream = ExtResource("3_icd7v")
+pitch_scale = 0.56
+bus = &"SFX"
+
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]

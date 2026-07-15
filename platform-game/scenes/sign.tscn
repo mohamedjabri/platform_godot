@@ -39,5 +39,24 @@ REQUIRED!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="LevelCompleteLabel" type="Label" parent="." unique_id=759418083]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -24.0
+offset_right = 22.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.22216022, 0.85775554, 0.33868608, 1)
+theme_override_fonts/font = ExtResource("3_8yyji")
+theme_override_font_sizes/font_size = 8
+text = "YEEY :)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

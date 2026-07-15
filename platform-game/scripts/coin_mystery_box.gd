@@ -1,21 +1,27 @@
 extends AnimatableBody2D
 
-var touch_count: int = 0
 var rng = RandomNumberGenerator.new()
+var popped: bool = false
 
 @export var rigged_chance: float = 0.5
 @onready var slime: CharacterBody2D = $Slime
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+
+
 func _ready() -> void:
+	
+	popped = SaveManager.is_popped(str(get_path()))
 	slime.set_dormant(true)
 	slime.visible = false
+	if not popped:
+		animation_player.play("rainbow")
 	
 func _on_area_2d_body_entered(_body: Node2D) -> void:
-	touch_count += 1
-	var rng_f: float = rng.randf()
-	print(rng_f)
-	if touch_count == 1:
+	if not popped:
+		SaveManager.mark_is_popped(str(get_path()))
+		popped = true
+		var rng_f: float = rng.randf()
 		animation_player.play("box_hit")
 		await  animation_player.animation_finished
 		if rng_f >= rigged_chance:

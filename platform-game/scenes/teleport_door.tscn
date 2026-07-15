@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bpg0l8gv83uqk"]
+
+[ext_resource type="Script" uid="uid://c38gmqhc865ya" path="res://scripts/teleport_door.gd" id="1_a2qlm"]
+[ext_resource type="Texture2D" uid="uid://dktq3qhnglhg8" path="res://assets/sprites/teleport_door.png" id="1_slkvk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i34iy"]
+size = Vector2(25, 38)
+
+[node name="TeleportDoor" type="Area2D" unique_id=1949716076]
+scale = Vector2(0.6, 0.6)
+collision_mask = 2
+script = ExtResource("1_a2qlm")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2121914461]
+texture = ExtResource("1_slkvk")
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=643530042]
+z_index = 1
+position = Vector2(0.5, -2)
+shape = SubResource("RectangleShape2D_i34iy")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

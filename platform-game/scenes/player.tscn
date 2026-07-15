@@ -5,6 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://crurdij5173xf" path="res://assets/sounds/jump.wav" id="3_qhqgy"]
 [ext_resource type="AudioStream" uid="uid://te8yy8vucx3p" path="res://assets/sounds/hurt.wav" id="4_dqkch"]
 [ext_resource type="FontFile" uid="uid://febvgvb7te28" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="5_qlg0r"]
+[ext_resource type="PackedScene" uid="uid://b0ibv0muv73j6" path="res://scenes/laser_beam.tscn" id="6_tuyoq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_487ah"]
 atlas = ExtResource("1_3vyb7")
@@ -339,6 +340,7 @@ _data = {
 z_index = 5
 collision_layer = 2
 script = ExtResource("1_g2els")
+laser_scene = ExtResource("6_tuyoq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=123975956]
 position = Vector2(0, -12)
@@ -391,3 +393,8 @@ libraries/ = SubResource("AnimationLibrary_smehm")
 [node name="CoyoteTimer" type="Timer" parent="." unique_id=941451291]
 wait_time = 0.12
 one_shot = true
+
+[node name="shootTimer" type="Timer" parent="." unique_id=550671399]
+wait_time = 0.5
+
+[connection signal="timeout" from="shootTimer" to="." method="_on_shoot_timer_timeout"]

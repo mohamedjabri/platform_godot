@@ -11,6 +11,7 @@ var direction = 1
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var killzone_shape: CollisionShape2D = $Killzone/killzoneShape
 @onready var damage_zone_shape: CollisionShape2D = $DamageZone/DamageZoneShape
+@onready var laser_hit_box: CollisionShape2D = $LaserHitBox/laserHitBox
 var is_dormant: bool = false
 
 func set_dormant(dormant: bool) -> void:
@@ -18,6 +19,7 @@ func set_dormant(dormant: bool) -> void:
 	collision_shape_2d.disabled = dormant
 	killzone_shape.disabled = dormant
 	damage_zone_shape.disabled = dormant
+	laser_hit_box.disabled = dormant
 		
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -43,10 +45,12 @@ func take_damage(amount: int) -> void:
 	slime_health = max(slime_health - amount, 0)
 	if slime_health <= 0:
 		animated_sprite.play("slime_death")
-		timer.wait_time = 0.5
-		timer.start()
 		get_node("Killzone").queue_free()
 		get_node("DamageZone").queue_free()
+		get_node("LaserHitBox").queue_free()
+		timer.wait_time = 0.5
+		timer.start()
+
 
 func _on_timer_timeout() -> void:
 	queue_free()

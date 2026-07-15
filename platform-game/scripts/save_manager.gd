@@ -84,6 +84,7 @@ func slot_info(slot: int) -> Dictionary:
 		"empty": false,
 		"score": data.get("score", 0),
 		"has_key": data.get("has_key", false),
+		"is_popped": data.get("is_popped", {}),
 		"health": data.get("health", 0),
 		"timestamp": data.get("timestamp", ""),
 	}
@@ -98,6 +99,7 @@ func new_game() -> void:
 		"health": null,
 		"score": 0,
 		"has_key": false,
+		"is_popped": {},
 		"collected": [],
 	}
 	checkpoint_data = current_data.duplicate(true)
@@ -176,17 +178,25 @@ func mark_collected(id: String) -> void:
 	if id not in current_data["collected"]:
 		current_data["collected"].append(id)
 		
-		
-func mark_key_collected(id: String) -> void:
+func mark_key_collected() -> void:
 	current_data["has_key"] = true
 	
-
-func is_key_collected(id: String) -> bool:
-	return current_data["has_key"] == true
+func mark_is_popped(id: String) -> void:
+	if not current_data.has("is_popped"):
+		current_data["is_popped"] = {}
+	if id not in current_data["is_popped"]:
+		current_data["is_popped"][id] = true
 	
+
+func is_key_collected() -> bool:
+	return current_data["has_key"] == true
 
 func is_collected(id: String) -> bool:
 	return current_data.has("collected") and id in current_data["collected"]
+	
+func is_popped(id: String) -> bool:
+	return (current_data.has("is_popped")) and (id in current_data["is_popped"])
+	
 	
 # Called on player death: discards any progress made since the last
 # checkpoint (new game start, last load, or last save) and reloads the level.

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bhga5levk73fp" path="res://assets/sprites/slime_green.png" id="1_p2gj0"]
 [ext_resource type="PackedScene" uid="uid://b6tromejd27du" path="res://scenes/killzone.tscn" id="2_n6pvg"]
 [ext_resource type="PackedScene" uid="uid://plcpnnvtjm5f" path="res://scenes/damage_zone.tscn" id="4_pjw23"]
+[ext_resource type="PackedScene" uid="uid://co4bwi36dilxs" path="res://scenes/laser_hit_box.tscn" id="5_2npkn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p2gj0"]
 atlas = ExtResource("1_p2gj0")
@@ -83,10 +84,15 @@ size = Vector2(12, 2)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yl6mp"]
 size = Vector2(12, 2)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i34iy"]
+radius = 5.0
+height = 12.0
+
 [node name="Slime" type="CharacterBody2D" unique_id=297810288]
 z_index = 5
 collision_layer = 4
 script = ExtResource("1_n6pvg")
+slime_health = 60
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1849161437]
 position = Vector2(0, -7)
@@ -110,7 +116,7 @@ target_position = Vector2(-12, 0)
 [node name="DamageZone" parent="." unique_id=1043226707 instance=ExtResource("4_pjw23")]
 
 [node name="DamageZoneShape" type="CollisionShape2D" parent="DamageZone" unique_id=235442581]
-position = Vector2(0, -6)
+position = Vector2(0, -9)
 shape = SubResource("RectangleShape2D_jcfcc")
 
 [node name="Timer" type="Timer" parent="." unique_id=200114096]
@@ -118,5 +124,11 @@ shape = SubResource("RectangleShape2D_jcfcc")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1055587063]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_yl6mp")
+
+[node name="LaserHitBox" parent="." unique_id=2024390098 instance=ExtResource("5_2npkn")]
+
+[node name="laserHitBox" type="CollisionShape2D" parent="LaserHitBox" unique_id=77773966]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_i34iy")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
