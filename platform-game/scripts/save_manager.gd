@@ -197,7 +197,6 @@ func is_collected(id: String) -> bool:
 func is_popped(id: String) -> bool:
 	return (current_data.has("is_popped")) and (id in current_data["is_popped"])
 	
-	
 # Called on player death: discards any progress made since the last
 # checkpoint (new game start, last load, or last save) and reloads the level.
 func respawn() -> void:

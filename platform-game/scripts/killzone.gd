@@ -5,13 +5,12 @@ extends Area2D
 
 func _on_body_entered(body: Node2D) -> void:
 	if damage > 0:
-		body.take_damage(damage)
+		body.take_damage(damage, true)
 	else:
-		Engine.time_scale = 0.5
+		body.take_damage(body.max_health)
 		body.get_node("CollisionShape2D").queue_free()
 		timer.start()
 
 
 func _on_timer_timeout() -> void:
-	Engine.time_scale = 1
 	SaveManager.respawn()

@@ -23,6 +23,7 @@ var shot_fired: bool = false
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var coyote_timer: Timer = $CoyoteTimer
 @onready var shoot_timer: Timer = $shootTimer
+@onready var death_animation: AnimationPlayer = %DeathAnimation
 
 func _ready():
 	update_health_bar_color()
@@ -34,23 +35,23 @@ func update_health_bar_color() -> void:
 	new_style.bg_color = Color.RED.lerp(Color(0.0, 0.568, 0.04, 1.0), health_ratio)
 	new_style.set_corner_radius_all(12)
 	health_bar.add_theme_stylebox_override("fill", new_style)
-
-func take_damage(amount: int) -> void:
+	
+func take_damage(amount: int, run_damage_animation: bool = false) -> void:
 	current_health = max(current_health - amount, 0)
 	health_bar.value = current_health
 	update_health_bar_color()
-	hurt_sound.play()
-	is_hurt = true
-	animated_sprite.play("damage")
-	camera_2d.apply_shake(round((amount/10)))
-	await get_tree().create_timer(0.3).timeout
-	is_hurt = false
+	if run_damage_animation:
+		hurt_sound.play()
+		is_hurt = true
+		animated_sprite.play("damage")
+		camera_2d.apply_shake(round((amount/10)))
+		await get_tree().create_timer(0.3).timeout
+		is_hurt = false
 		
 	if current_health <= 0:
-		Engine.time_scale = 0.5
+		death_animation.play("youdied")
 		get_node("CollisionShape2D").queue_free()
-		await get_tree().create_timer(0.6 * 0.5).timeout
-		Engine.time_scale = 1
+		await death_animation.animation_finished
 		SaveManager.respawn()
 		
 		

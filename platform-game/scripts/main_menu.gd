@@ -31,7 +31,7 @@ func _refresh_slot_labels() -> void:
 			
 func _show_slot_picker() -> void:
 	main_buttons.visible = false
-	slot_picker.visible = true			
+	slot_picker.visible = true
 
 func _on_new_game_button_pressed() -> void:
 	SaveManager.new_game()
