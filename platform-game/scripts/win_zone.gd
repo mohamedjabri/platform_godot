@@ -15,6 +15,7 @@ func _on_body_entered(body: Node2D) -> void:
 		info_label.text = "Score: " + str(game_manager.score) + " ."
 		info_label.text += "\n\nCurrent Health: " + str(body.current_health) + " ."
 		game_finished.play()
+		
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if (event.is_action_pressed("ui_cancel")) and (level_finished == true):

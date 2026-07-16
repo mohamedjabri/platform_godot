@@ -6,7 +6,6 @@ extends Node
 
 const SAVE_DIR := "user://saves/"
 const SLOT_COUNT := 3
-const GAME_SCENE := "res://scenes/game.tscn"
 const MAIN_MENU_SCENE := "res://scenes/main_menu.tscn"
 
 
@@ -16,6 +15,7 @@ var has_active_session: bool = false
 var music_volume: float = 0.3
 var sfx_volume: float = 0.5
 var settings: Dictionary = {}
+var levels: Array[String] = ["res://scenes/game.tscn"]
 
 # The in-memory snapshot of the current playthrough. Shape:
 # {
@@ -62,7 +62,6 @@ func settings_path() -> String:
 func slot_path(slot: int) -> String:
 	return SAVE_DIR + "slot_%d.save" % slot
 
-
 func slot_exists(slot: int) -> bool:
 	return FileAccess.file_exists(slot_path(slot))
 
@@ -79,14 +78,17 @@ func slot_info(slot: int) -> Dictionary:
 
 	if typeof(data) != TYPE_DICTIONARY:
 		return {"empty": true}
+	
+	var level_info = data["current_level"]
 
 	return {
 		"empty": false,
-		"score": data.get("score", 0),
-		"has_key": data.get("has_key", false),
-		"is_popped": data.get("is_popped", {}),
-		"health": data.get("health", 0),
-		"timestamp": data.get("timestamp", ""),
+		"index": level_info.get("index", 0),
+		"score": level_info.get("score", 0),
+		"has_key": level_info.get("has_key", false),
+		"is_popped": level_info.get("is_popped", {}),
+		"health": level_info.get("health", 0),
+		"timestamp": level_info.get("timestamp", ""),
 	}
 
 
@@ -95,16 +97,19 @@ func slot_info(slot: int) -> Dictionary:
 # nothing to restore here beyond resetting our own bookkeeping.
 func new_game() -> void:
 	current_data = {
-		"position": null,
-		"health": null,
-		"score": 0,
-		"has_key": false,
-		"is_popped": {},
-		"collected": [],
+		"current_level": {
+			"index": 0,
+			"position": null,
+			"health": null,
+			"score": 0,
+			"has_key": false,
+			"is_popped": {},
+			"collected": [],
+		},
 	}
 	checkpoint_data = current_data.duplicate(true)
 	has_active_session = true
-	get_tree().change_scene_to_file(GAME_SCENE)
+	get_tree().change_scene_to_file(levels[current_data["current_level"]["index"]])
 
 
 # Loads a save file into memory and jumps to the game scene. The actual
@@ -124,7 +129,7 @@ func load_game(slot: int) -> void:
 	current_data = data
 	checkpoint_data = current_data.duplicate(true)
 	has_active_session = true
-	get_tree().change_scene_to_file(GAME_SCENE)
+	get_tree().change_scene_to_file(levels[current_data["current_level"]["index"]])
 
 
 # Writes the current session to disk. If live player/game_manager nodes are
@@ -138,7 +143,7 @@ func save_game(slot: int, player: Node = null, game_manager: Node = null) -> voi
 	if player != null:
 		record_from_level(player, game_manager)
 
-	current_data["timestamp"] = Time.get_datetime_string_from_system()
+	current_data["current_level"]["timestamp"] = Time.get_datetime_string_from_system()
 
 	var file := FileAccess.open(slot_path(slot), FileAccess.WRITE)
 	file.store_string(JSON.stringify(current_data))
@@ -150,10 +155,10 @@ func save_game(slot: int, player: Node = null, game_manager: Node = null) -> voi
 # Pulls live values off the player/game_manager into current_data, without
 # writing anything to disk yet.
 func record_from_level(player: Node, game_manager: Node) -> void:
-	current_data["position"] = [player.global_position.x, player.global_position.y]
-	current_data["health"] = player.current_health
+	current_data["current_level"]["position"] = [player.global_position.x, player.global_position.y]
+	current_data["current_level"]["health"] = player.current_health
 	if game_manager != null:
-		current_data["score"] = game_manager.score
+		current_data["current_level"]["score"] = game_manager.score
 
 
 # Called once by the game scene's own _ready(). Applies whatever is in
@@ -163,9 +168,9 @@ func record_from_level(player: Node, game_manager: Node) -> void:
 func apply_to_level(player: Node, game_manager: Node) -> void:
 	if not has_active_session:
 		return
-	player.apply_save_data(current_data)
+	player.apply_save_data(current_data["current_level"])
 	if game_manager != null:
-		game_manager.set_score(current_data.get("score", 0))
+		game_manager.set_score(current_data["current_level"].get("score", 0))
 
 
 # --- Collected-item tracking -------------------------------------------
@@ -173,29 +178,29 @@ func apply_to_level(player: Node, game_manager: Node) -> void:
 # stable, unique id since the level is hand-authored, not procedural).
 
 func mark_collected(id: String) -> void:
-	if not current_data.has("collected"):
-		current_data["collected"] = []
-	if id not in current_data["collected"]:
-		current_data["collected"].append(id)
+	if not current_data["current_level"].has("collected"):
+		current_data["current_level"]["collected"] = []
+	if id not in current_data["current_level"]["collected"]:
+		current_data["current_level"]["collected"].append(id)
 		
 func mark_key_collected() -> void:
-	current_data["has_key"] = true
+	current_data["current_level"]["has_key"] = true
 	
 func mark_is_popped(id: String) -> void:
-	if not current_data.has("is_popped"):
-		current_data["is_popped"] = {}
-	if id not in current_data["is_popped"]:
-		current_data["is_popped"][id] = true
+	if not current_data["current_level"].has("is_popped"):
+		current_data["current_level"]["is_popped"] = {}
+	if id not in current_data["current_level"]["is_popped"]:
+		current_data["current_level"]["is_popped"][id] = true
 	
 
 func is_key_collected() -> bool:
-	return current_data["has_key"] == true
+	return current_data["current_level"]["has_key"] == true
 
 func is_collected(id: String) -> bool:
-	return current_data.has("collected") and id in current_data["collected"]
+	return current_data["current_level"].has("collected") and id in current_data["current_level"]["collected"]
 	
 func is_popped(id: String) -> bool:
-	return (current_data.has("is_popped")) and (id in current_data["is_popped"])
+	return (current_data["current_level"].has("is_popped")) and (id in current_data["current_level"]["is_popped"])
 	
 # Called on player death: discards any progress made since the last
 # checkpoint (new game start, last load, or last save) and reloads the level.
