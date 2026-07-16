@@ -115,6 +115,9 @@ text = "New Game"
 
 [node name="ContinueButton" type="Button" parent="VBoxContainer" unique_id=1461144301]
 layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_l6cm7")
 theme_override_font_sizes/font_size = 48
 text = "Continue Game"

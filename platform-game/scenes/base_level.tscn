@@ -1,0 +1,479 @@
+[gd_scene format=3 uid="uid://bw8i5jupx4xr0"]
+
+[ext_resource type="Script" uid="uid://dbofumk3njtud" path="res://scripts/game.gd" id="1_3aqo6"]
+[ext_resource type="FontFile" uid="uid://cfi2kbget47dc" path="res://assets/fonts/PixelOperator8.ttf" id="1_6tisa"]
+[ext_resource type="FontFile" uid="uid://febvgvb7te28" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="3_rlct4"]
+[ext_resource type="AudioStream" uid="uid://ou6ycmqxnptx" path="res://assets/sounds/gamefinished.wav" id="4_earhg"]
+[ext_resource type="Script" uid="uid://cvsmj0ocx3ddj" path="res://scripts/pause_menu.gd" id="5_u6ue0"]
+[ext_resource type="Script" uid="uid://b0wp4y7buxqsm" path="res://game_manager.gd" id="6_fal5o"]
+[ext_resource type="PackedScene" uid="uid://b6tromejd27du" path="res://scenes/killzone.tscn" id="7_earhg"]
+[ext_resource type="PackedScene" uid="uid://dyh612kg65gw1" path="res://scenes/player.tscn" id="7_rlct4"]
+[ext_resource type="Script" uid="uid://crsqjaufj1uad" path="res://scripts/camera_2d.gd" id="8_fal5o"]
+[ext_resource type="PackedScene" uid="uid://dtlvreak5juoa" path="res://scenes/win_zone.tscn" id="8_u6ue0"]
+
+[sub_resource type="Gradient" id="Gradient_dbkse"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_n8s2j"]
+gradient = SubResource("Gradient_dbkse")
+fill_from = Vector2(1, 1)
+fill_to = Vector2(1, 0.47555557)
+repeat = 2
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0n1tn"]
+texture = SubResource("GradientTexture2D_n8s2j")
+modulate_color = Color(0.26666668, 0.26666668, 0.26666668, 0.654902)
+
+[sub_resource type="Animation" id="Animation_37s47"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DeathPanel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DeathPanel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_bt5mj"]
+resource_name = "youdied"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DeathPanel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DeathPanel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oox4p"]
+_data = {
+&"RESET": SubResource("Animation_37s47"),
+&"youdied": SubResource("Animation_bt5mj")
+}
+
+[sub_resource type="Animation" id="Animation_ir15t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ca42v"]
+resource_name = "fade_panel"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b0lsh"]
+_data = {
+&"RESET": SubResource("Animation_ir15t"),
+&"fade_panel": SubResource("Animation_ca42v")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3rj88"]
+bg_color = Color(0.21387944, 0.45299977, 0.6223669, 0.8117647)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_u6ue0"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_fal5o"]
+distance = -16.0
+
+[node name="BaseLevel" type="Node2D" unique_id=483330720]
+script = ExtResource("1_3aqo6")
+
+[node name="DeathCanvas" type="CanvasLayer" parent="." unique_id=808817869]
+
+[node name="DeathPanel" type="Panel" parent="DeathCanvas" unique_id=1977293649]
+visible = false
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -48.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_0n1tn")
+
+[node name="YouDied" type="Label" parent="DeathCanvas/DeathPanel" unique_id=304680364]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -204.0
+offset_top = -32.0
+offset_right = 204.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.53, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_6tisa")
+theme_override_font_sizes/font_size = 64
+text = "YOU DIED"
+
+[node name="DeathAnimation" type="AnimationPlayer" parent="DeathCanvas" unique_id=1220133500]
+unique_name_in_owner = true
+process_mode = 3
+libraries/ = SubResource("AnimationLibrary_oox4p")
+
+[node name="WinMenu" type="CanvasLayer" parent="." unique_id=793820219]
+
+[node name="Panel" type="Panel" parent="WinMenu" unique_id=2130889724]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LevelComplete" type="Label" parent="WinMenu/Panel" unique_id=473973356]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -440.0
+offset_top = 23.0
+offset_right = 440.0
+offset_bottom = 87.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_rlct4")
+theme_override_font_sizes/font_size = 64
+text = "Level Complete!"
+
+[node name="InfoLabel" type="Label" parent="WinMenu/Panel" unique_id=543943542]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 25.0
+offset_top = -108.0
+offset_right = -27.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_rlct4")
+theme_override_font_sizes/font_size = 48
+
+[node name="NextLevel" type="Button" parent="WinMenu/Panel" unique_id=1349716260]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -239.0
+offset_top = 100.0
+offset_right = 237.0
+offset_bottom = 156.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_6tisa")
+theme_override_font_sizes/font_size = 48
+text = "> Next Level"
+
+[node name="GameFinished" type="AudioStreamPlayer" parent="WinMenu/Panel" unique_id=865371533]
+unique_name_in_owner = true
+process_mode = 3
+stream = ExtResource("4_earhg")
+bus = &"SFX"
+
+[node name="PanelFade" type="AnimationPlayer" parent="WinMenu" unique_id=1350260476]
+unique_name_in_owner = true
+process_mode = 3
+root_node = NodePath("../Panel")
+libraries/ = SubResource("AnimationLibrary_b0lsh")
+
+[node name="PauseMenu" type="CanvasLayer" parent="." unique_id=806835381]
+process_mode = 3
+script = ExtResource("5_u6ue0")
+
+[node name="SlotPicker" type="Panel" parent="PauseMenu" unique_id=1559774085]
+process_mode = 3
+custom_minimum_size = Vector2(220, 200)
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/SlotPicker" unique_id=1503675640]
+process_mode = 3
+custom_minimum_size = Vector2(220, 200)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -82.0
+offset_top = -54.0
+offset_right = 82.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 33
+
+[node name="Slot1" type="Button" parent="PauseMenu/SlotPicker/VBoxContainer" unique_id=1361256152]
+process_mode = 3
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_6tisa")
+text = "Save Slot1"
+
+[node name="Slot2" type="Button" parent="PauseMenu/SlotPicker/VBoxContainer" unique_id=1510662655]
+process_mode = 3
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_6tisa")
+text = "Save Slot2"
+
+[node name="Slot3" type="Button" parent="PauseMenu/SlotPicker/VBoxContainer" unique_id=1570455197]
+process_mode = 3
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_6tisa")
+text = "Save Slot3"
+
+[node name="MainPanel" type="Panel" parent="PauseMenu" unique_id=1329009372]
+process_mode = 3
+custom_minimum_size = Vector2(220, 200)
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 110.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/MainPanel" unique_id=1279730778]
+process_mode = 3
+custom_minimum_size = Vector2(220, 200)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/MainPanel/VBoxContainer" unique_id=1581000160]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_6tisa")
+text = "Resume Game"
+
+[node name="SaveGameButton" type="Button" parent="PauseMenu/MainPanel/VBoxContainer" unique_id=1931208387]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_6tisa")
+text = "Save Game"
+
+[node name="MainMenuButton" type="Button" parent="PauseMenu/MainPanel/VBoxContainer" unique_id=455126687]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_6tisa")
+text = "Main Menu"
+
+[node name="ConfirmationLabel" type="Label" parent="PauseMenu" unique_id=856196042]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -16.0
+offset_right = 20.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_rlct4")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_3rj88")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=657904643]
+
+[node name="GameManager" type="Node" parent="HUD" unique_id=1148303907 groups=["game_manager"]]
+unique_name_in_owner = true
+script = ExtResource("6_fal5o")
+
+[node name="Score" type="Label" parent="HUD/GameManager" unique_id=729428598]
+z_index = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_top = 10.0
+offset_bottom = 51.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.36282945, 0.36282945, 0.36282945, 1)
+theme_override_fonts/font = ExtResource("3_rlct4")
+theme_override_font_sizes/font_size = 18
+text = "Coins Collected: 0."
+horizontal_alignment = 1
+
+[node name="HP" type="Label" parent="HUD/GameManager" unique_id=893274357]
+z_index = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1052.0
+offset_top = 7.0
+offset_right = -1007.0
+offset_bottom = 22.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_rlct4")
+theme_override_font_sizes/font_size = 8
+text = "Health"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="HUD" unique_id=1663274786]
+unique_name_in_owner = true
+offset_left = 3.0
+offset_top = 4.0
+offset_right = 98.0
+offset_bottom = 22.0
+size_flags_vertical = 1
+tooltip_text = "Health Bar"
+tooltip_auto_translate_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+value = 100.0
+show_percentage = false
+
+[node name="Player" parent="." unique_id=788421505 instance=ExtResource("7_rlct4")]
+unique_name_in_owner = true
+position = Vector2(45, 74)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=812833192]
+position = Vector2(-25, -54)
+zoom = Vector2(3.5, 3.5)
+limit_left = -269
+limit_top = -10000004
+limit_right = 1830
+limit_bottom = 84
+limit_smoothed = true
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+script = ExtResource("8_fal5o")
+
+[node name="Killzone" parent="." unique_id=61987142 instance=ExtResource("7_earhg")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone" unique_id=1711683409]
+position = Vector2(66, 103)
+shape = SubResource("WorldBoundaryShape2D_u6ue0")
+
+[node name="WinZone" parent="." unique_id=1370683250 instance=ExtResource("8_u6ue0")]
+position = Vector2(1842, -45)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WinZone" unique_id=1449022028]
+z_index = 1
+position = Vector2(-34, 3)
+rotation = -1.5707964
+shape = SubResource("WorldBoundaryShape2D_fal5o")
+
+[connection signal="pressed" from="WinMenu/Panel/NextLevel" to="WinZone" method="_on_next_level_pressed"]
+[connection signal="pressed" from="PauseMenu/SlotPicker/VBoxContainer/Slot1" to="PauseMenu" method="_on_slot_1_pressed"]
+[connection signal="pressed" from="PauseMenu/SlotPicker/VBoxContainer/Slot2" to="PauseMenu" method="_on_slot_2_pressed"]
+[connection signal="pressed" from="PauseMenu/SlotPicker/VBoxContainer/Slot3" to="PauseMenu" method="_on_slot_3_pressed"]
+[connection signal="pressed" from="PauseMenu/MainPanel/VBoxContainer/ResumeButton" to="PauseMenu" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseMenu/MainPanel/VBoxContainer/SaveGameButton" to="PauseMenu" method="_on_save_game_button_pressed"]
+[connection signal="pressed" from="PauseMenu/MainPanel/VBoxContainer/MainMenuButton" to="PauseMenu" method="_on_main_menu_button_pressed"]

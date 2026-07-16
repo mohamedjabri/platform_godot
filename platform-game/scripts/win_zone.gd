@@ -4,6 +4,7 @@ extends Area2D
 @onready var panel: Panel = %Panel
 @onready var game_finished: AudioStreamPlayer = %GameFinished
 @onready var panel_fade: AnimationPlayer = %PanelFade
+@onready var next_level: Button = %NextLevel
 var level_finished: bool = false
 
 func advance_game(current_data: Dictionary) -> Dictionary:
@@ -28,10 +29,8 @@ func _on_body_entered(body: Node2D) -> void:
 		info_label.text = "Score: " + str(game_manager.score) + " ."
 		info_label.text += "\n\nCurrent Health: " + str(body.current_health) + " ."
 		game_finished.play()
-		if len(SaveManager.levels)>1:
-			SaveManager.current_data = advance_game(SaveManager.current_data)
 		await game_finished.finished
-		get_tree().change_scene_to_file(SaveManager.levels[SaveManager.current_data["current_level"]["index"]])
+		
 		
 	
 func _unhandled_input(event: InputEvent) -> void:
@@ -39,3 +38,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().paused = false
 		get_tree().change_scene_to_file(SaveManager.MAIN_MENU_SCENE)
 	
+
+
+func _on_next_level_pressed() -> void:
+	get_tree().paused = false
+	if len(SaveManager.levels)>1:
+		SaveManager.current_data = advance_game(SaveManager.current_data)
+		SaveManager.checkpoint_data = SaveManager.current_data.duplicate(true)
+		get_tree().change_scene_to_file(SaveManager.levels[SaveManager.current_data["current_level"]["index"]])
