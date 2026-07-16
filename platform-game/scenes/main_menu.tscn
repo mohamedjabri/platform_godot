@@ -113,6 +113,12 @@ theme_override_fonts/font = ExtResource("1_l6cm7")
 theme_override_font_sizes/font_size = 48
 text = "New Game"
 
+[node name="ContinueButton" type="Button" parent="VBoxContainer" unique_id=1461144301]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 48
+text = "Continue Game"
+
 [node name="LoadGameButton" type="Button" parent="VBoxContainer" unique_id=848252117]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
@@ -207,6 +213,7 @@ text = "Sound Controle"
 [connection signal="pressed" from="SlotPicker/Slot3" to="." method="_on_slot_3_pressed"]
 [connection signal="pressed" from="SlotPicker/CloseButton" to="." method="_on_close_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/LoadGameButton" to="." method="_on_load_game_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ExitGameButton" to="." method="_on_exit_game_button_pressed"]
 [connection signal="value_changed" from="SoundSliders/Panel/MainMusicSlider" to="." method="_on_main_music_slider_value_changed"]

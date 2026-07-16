@@ -70,3 +70,5 @@ func _on_sfx_slider_value_changed(value: float) -> void:
 	SaveManager.sfx_volume = value
 	SaveManager.save_settings()
 	
+func _on_continue_button_pressed() -> void:
+	SaveManager.continue_game()

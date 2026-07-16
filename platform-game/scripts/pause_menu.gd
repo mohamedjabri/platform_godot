@@ -54,5 +54,6 @@ func _on_resume_button_pressed() -> void:
 	_resume()
 
 func _on_main_menu_button_pressed() -> void:
+	SaveManager.record_from_level(player, game_manager)
 	get_tree().paused = false
 	get_tree().change_scene_to_file(SaveManager.MAIN_MENU_SCENE)

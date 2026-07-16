@@ -7,6 +7,9 @@ extends Node
 const SAVE_DIR := "user://saves/"
 const SLOT_COUNT := 3
 const MAIN_MENU_SCENE := "res://scenes/main_menu.tscn"
+const LVL1 := "res://scenes/level_1.tscn"
+const LVL2 := "res://scenes/level_2.tscn"
+
 
 
 # True once a game is actually in progress (after New Game or Load Game).
@@ -15,7 +18,10 @@ var has_active_session: bool = false
 var music_volume: float = 0.3
 var sfx_volume: float = 0.5
 var settings: Dictionary = {}
-var levels: Array[String] = ["res://scenes/game.tscn"]
+var levels: Array[String] = [
+	LVL1,
+	LVL2
+]
 
 # The in-memory snapshot of the current playthrough. Shape:
 # {
@@ -25,7 +31,17 @@ var levels: Array[String] = ["res://scenes/game.tscn"]
 #   "collected": [ "path/to/node", ... ],
 #   "timestamp": "2026-07-06 12:00:00" (only set once saved)
 # }
-var current_data: Dictionary = {}
+var current_data: Dictionary = {
+		"current_level": {
+			"index": 0,
+			"position": null,
+			"health": null,
+			"score": 0,
+			"has_key": false,
+			"is_popped": {},
+			"collected": [],
+		},
+	}
 var checkpoint_data: Dictionary = {}
 
 
@@ -130,7 +146,11 @@ func load_game(slot: int) -> void:
 	checkpoint_data = current_data.duplicate(true)
 	has_active_session = true
 	get_tree().change_scene_to_file(levels[current_data["current_level"]["index"]])
-
+	
+func continue_game() -> void:
+	checkpoint_data = current_data.duplicate(true)
+	has_active_session = true
+	get_tree().change_scene_to_file(levels[current_data["current_level"]["index"]])
 
 # Writes the current session to disk. If live player/game_manager nodes are
 # passed (i.e. you're calling this from inside a running game), their
@@ -197,7 +217,7 @@ func is_key_collected() -> bool:
 	return current_data["current_level"]["has_key"] == true
 
 func is_collected(id: String) -> bool:
-	return current_data["current_level"].has("collected") and id in current_data["current_level"]["collected"]
+	return (current_data["current_level"].has("collected")) and (id in current_data["current_level"]["collected"])
 	
 func is_popped(id: String) -> bool:
 	return (current_data["current_level"].has("is_popped")) and (id in current_data["current_level"]["is_popped"])

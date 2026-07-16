@@ -6,6 +6,19 @@ extends Area2D
 @onready var panel_fade: AnimationPlayer = %PanelFade
 var level_finished: bool = false
 
+func advance_game(current_data: Dictionary) -> Dictionary:
+	return  {
+		"current_level": {
+			"index": current_data["current_level"]["index"] + 1,
+			"position": null,
+			"health": null,
+			"score": current_data["current_level"]["score"],
+			"has_key": false,
+			"is_popped": {},
+			"collected": [],
+		},
+	}
+
 func _on_body_entered(body: Node2D) -> void:
 	if body.has_key:
 		level_finished = true
@@ -15,6 +28,10 @@ func _on_body_entered(body: Node2D) -> void:
 		info_label.text = "Score: " + str(game_manager.score) + " ."
 		info_label.text += "\n\nCurrent Health: " + str(body.current_health) + " ."
 		game_finished.play()
+		if len(SaveManager.levels)>1:
+			SaveManager.current_data = advance_game(SaveManager.current_data)
+		await game_finished.finished
+		get_tree().change_scene_to_file(SaveManager.levels[SaveManager.current_data["current_level"]["index"]])
 		
 	
 func _unhandled_input(event: InputEvent) -> void:
