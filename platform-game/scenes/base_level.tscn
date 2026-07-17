@@ -157,6 +157,67 @@ border_color = Color(0, 0, 0, 1)
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_fal5o"]
 distance = -16.0
 
+[sub_resource type="Animation" id="Animation_fal5o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeCanvas/Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeCanvas/Panel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_b0lsh"]
+resource_name = "fade_in"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeCanvas/Panel:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeCanvas/Panel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3rj88"]
+_data = {
+&"RESET": SubResource("Animation_fal5o"),
+&"fade_in": SubResource("Animation_b0lsh")
+}
+
 [node name="BaseLevel" type="Node2D" unique_id=483330720]
 script = ExtResource("1_3aqo6")
 
@@ -444,12 +505,12 @@ unique_name_in_owner = true
 position = Vector2(45, 74)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=812833192]
-position = Vector2(-25, -54)
+position = Vector2(-25, -20)
 zoom = Vector2(3.5, 3.5)
 limit_left = -269
 limit_top = -10000004
 limit_right = 1830
-limit_bottom = 84
+limit_bottom = 100
 limit_smoothed = true
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
@@ -469,6 +530,20 @@ z_index = 1
 position = Vector2(-34, 3)
 rotation = -1.5707964
 shape = SubResource("WorldBoundaryShape2D_fal5o")
+
+[node name="FadeCanvas" type="CanvasLayer" parent="." unique_id=817039275]
+
+[node name="Panel" type="Panel" parent="FadeCanvas" unique_id=1724616642]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FadeIn" type="AnimationPlayer" parent="FadeCanvas" unique_id=936736714]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_3rj88")
 
 [connection signal="pressed" from="WinMenu/Panel/NextLevel" to="WinZone" method="_on_next_level_pressed"]
 [connection signal="pressed" from="PauseMenu/SlotPicker/VBoxContainer/Slot1" to="PauseMenu" method="_on_slot_1_pressed"]

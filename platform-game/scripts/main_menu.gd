@@ -19,6 +19,7 @@ func _ready() -> void:
 	sfx_slider.set_value_no_signal(SaveManager.sfx_volume)
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(SaveManager.music_volume))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(SaveManager.sfx_volume))
+	Music.playing = true
 	
 func _refresh_slot_labels() -> void:
 	for i in slot_buttons.size():

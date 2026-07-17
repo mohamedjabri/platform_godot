@@ -23,6 +23,7 @@ buses/default_bus_layout="uid://btlmkixuq23yc"
 
 Music="*uid://ddaxxgo014p50"
 SaveManager="*res://scripts/save_manager.gd"
+DeathMusic="*uid://u6c1u6kjefyy"
 
 [display]
 

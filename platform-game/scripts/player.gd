@@ -9,6 +9,7 @@ var is_hurt: bool = false
 var coyote_timer_activated = false
 var has_key = false
 var shot_fired: bool = false
+var can_control: bool = true
 
 @export var current_speed: int = 130
 @export var jump_damage: int = 50
@@ -28,6 +29,17 @@ var shot_fired: bool = false
 func _ready():
 	update_health_bar_color()
 	has_key = SaveManager.is_key_collected()
+	
+func play_intro(from_position: Vector2, walk_distance: float, duration: float = 1.2) -> void:
+	can_control = false
+	global_position = from_position
+	animated_sprite.play("run")
+	var target := from_position + Vector2(walk_distance, 0)
+	var tween := create_tween()
+	tween.tween_property(self, "global_position", target, duration)
+	await tween.finished
+	animated_sprite.play("idle")
+	can_control = true
 
 func update_health_bar_color() -> void:
 	var new_style = StyleBoxFlat.new()
@@ -49,6 +61,8 @@ func take_damage(amount: int, run_damage_animation: bool = false) -> void:
 		is_hurt = false
 		
 	if current_health <= 0:
+		Music.stop()
+		DeathMusic.play()
 		death_animation.play("youdied")
 		get_node("CollisionShape2D").queue_free()
 		await death_animation.animation_finished
@@ -74,7 +88,7 @@ func _physics_process(delta: float) -> void:
 	var can_first_jump = is_on_floor() or (jump_counter == 0 and coyote_timer.time_left > 0)
 	var can_double_jump = jump_counter == 1
 
-	if Input.is_action_just_pressed("jump") and (can_first_jump or can_double_jump):
+	if Input.is_action_just_pressed("jump") and (can_first_jump or can_double_jump) and can_control:
 		velocity.y = JUMP_VELOCITY
 		jump_sound.play()
 		jump_counter += 1
@@ -100,14 +114,15 @@ func _physics_process(delta: float) -> void:
 			animated_sprite.play("double_jump")
 		else:
 			animated_sprite.play("idle")
-	
-	if direction:
-		velocity.x = direction * current_speed
-	else:
-		velocity.x = move_toward(velocity.x, 0, current_speed)
+			
+	if can_control:
+		if direction:
+			velocity.x = direction * current_speed
+		else:
+			velocity.x = move_toward(velocity.x, 0, current_speed)
 
 	move_and_slide()
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_just_pressed("shoot") and can_control:
 		if shot_fired == false:
 			shot_fired = true
 			shoot_timer.start()

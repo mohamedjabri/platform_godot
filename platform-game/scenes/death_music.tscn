@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://u6c1u6kjefyy"]
+
+[ext_resource type="AudioStream" uid="uid://3jde5gbldjt3" path="res://assets/music/death_music.wav" id="1_v0x34"]
+
+[node name="DeathMusic" type="AudioStreamPlayer2D" unique_id=1667677668]
+stream = ExtResource("1_v0x34")
+pitch_scale = 1.21
+bus = &"Music"
