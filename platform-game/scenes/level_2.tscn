@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bw8i5jupx4xr0" path="res://scenes/base_level.tscn" id="1_3bmlt"]
 [ext_resource type="Texture2D" uid="uid://1s3ortdderbr" path="res://assets/sprites/world_tileset.png" id="2_jm1iu"]
 [ext_resource type="PackedScene" uid="uid://dps511kcn6lll" path="res://scenes/platform.tscn" id="3_pbc48"]
+[ext_resource type="PackedScene" uid="uid://dm25kmnspap8w" path="res://scenes/snake.tscn" id="4_eqxsl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pbc48"]
 texture = ExtResource("2_jm1iu")
@@ -412,3 +413,7 @@ position = Vector2(578, 32)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Platforms/Platform2" index="2" unique_id=1255006195]
 libraries/ = SubResource("AnimationLibrary_y0kc7")
 autoplay = &"move"
+
+[node name="Snake" parent="." index="10" unique_id=620202355 instance=ExtResource("4_eqxsl")]
+z_index = -1
+position = Vector2(239, 59)
