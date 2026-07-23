@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://et6ftdpv0r2h"]
+
+[ext_resource type="PackedScene" uid="uid://s24ikjwfq30j" path="res://scenes/slime.tscn" id="1_7l6y1"]
+[ext_resource type="Texture2D" uid="uid://bvhrqsck16b56" path="res://assets/sprites/slime_purple.png" id="2_rwesy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p4tba"]
+atlas = ExtResource("2_rwesy")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0hry"]
+atlas = ExtResource("2_rwesy")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_818gd"]
+atlas = ExtResource("2_rwesy")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p467k"]
+atlas = ExtResource("2_rwesy")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vw4l"]
+atlas = ExtResource("2_rwesy")
+region = Rect2(0, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kw5n6"]
+atlas = ExtResource("2_rwesy")
+region = Rect2(24, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4btqv"]
+atlas = ExtResource("2_rwesy")
+region = Rect2(48, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bf0kl"]
+atlas = ExtResource("2_rwesy")
+region = Rect2(72, 48, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6m2vy"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p4tba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0hry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_818gd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p467k")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vw4l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kw5n6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4btqv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bf0kl")
+}],
+"loop": 0,
+"name": &"slime_death",
+"speed": 10.0
+}]
+
+[node name="Slime" unique_id=297810288 instance=ExtResource("1_7l6y1")]
+speed = 60.0
+slime_health = 110
+
+[node name="AnimatedSprite2D" parent="." index="0" unique_id=1849161437]
+sprite_frames = SubResource("SpriteFrames_6m2vy")

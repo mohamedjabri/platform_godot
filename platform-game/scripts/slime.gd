@@ -14,6 +14,9 @@ var direction = 1
 @onready var laser_hit_box: CollisionShape2D = $LaserHitBox/laserHitBox
 var is_dormant: bool = false
 
+func _ready() -> void:
+	pass
+
 func set_dormant(dormant: bool) -> void:
 	is_dormant = dormant
 	collision_shape_2d.disabled = dormant

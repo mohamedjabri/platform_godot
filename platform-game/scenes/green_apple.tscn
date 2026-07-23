@@ -167,6 +167,7 @@ position = Vector2(0, -8.5)
 texture = ExtResource("1_tk748")
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 17)
+region_filter_clip_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=191088924]
 position = Vector2(0, -8.5)

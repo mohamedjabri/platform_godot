@@ -6,4 +6,6 @@ extends Node2D
 func take_damage(amount: int) -> void:
 	snake_health = max(snake_health - amount, 0)
 	if snake_health <= 0:
-		print("killed_it")
+		get_node("Path2D/PathFollow2D/AnimatedSprite2D").queue_free()
+		get_node("Path2D/PathFollow2D/Killzone").queue_free()
+		get_node("Path2D/PathFollow2D/LaserHitBox").queue_free()
